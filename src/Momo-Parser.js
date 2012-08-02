@@ -5,13 +5,13 @@
 // see LICENSE for details.
 //
 	
-var url = require('url');
+var url = require('url'),
+	util = require('util');
 /**
 * Initialize Momo Parser function
 **/
 module.exports = function () { return new MomoParser(); }
 function MomoParser() {
-	MomoParserInstance = this ;
 };
 
 /**
@@ -20,7 +20,7 @@ function MomoParser() {
 */
 MomoParser.prototype.isCommandValid = function isCommandValid(command) {
 	//Check if valid and `parsable`
-	if (MomoParserInstance.commandAllowedValues(command,100) == false) {
+	if (this.commandAllowedValues(command,100) == false) {
 		return false;
 	}return true;
 };
@@ -42,26 +42,26 @@ MomoParser.prototype.commandAllowedValues = function commandAllowedValues(comman
 			var parts = theCMD.split("/");
 			if (parts.length == 2) {
 				//Check first stage
-				var firstStage = MomoParserInstance.parseCommandValue(parts[0]);
-				var secondStage = MomoParserInstance.parseCommandValue(parts[1]);
+				var firstStage = this.parseCommandValue(parts[0]);
+				var secondStage = this.parseCommandValue(parts[1]);
 				//Check for not allowed types //HERE WE ARE NOT ALLOWING MULTIPLE NUMBERS ON SECONDS STAGE IF FIRST STAGE IS NUMBER
 				if (typeof secondStage != 'string' && typeof firstStage != 'string' && secondStage.length > 1) {
-					console.log("Command ("+theCMD+"), doesn't seems to be right, Momo does not allow multi numbers on both command stages.");
+					util.log("Command ("+theCMD+"), doesn't seems to be right, Momo does not allow multi numbers on both command stages.");
 					return false;
 				}else if (typeof secondStage == 'string' && typeof firstStage == 'string') {
-					return MomoParserInstance.fillCommandWithMaxValue(maxValue);
+					return this.fillCommandWithMaxValue(maxValue);
 				}else {
 					if (firstStage == '*') { /*DIVISIBLE*/
-						return MomoParserInstance.computeDivisibleCommand(secondStage,maxValue);
+						return this.computeDivisibleCommand(secondStage,maxValue);
 					}else { /*ROUTINE*/
-						return MomoParserInstance.computeRoutineCommand(firstStage,secondStage,maxValue);
+						return this.computeRoutineCommand(firstStage,secondStage,maxValue);
 					}
 				}
 			} else {
-				console.log("Command have more than 2 stages. This is not allowed.");
+				util.log("Command have more than 2 stages. This is not allowed.");
 				return false;
 			}
-		}else { /*Single Stage*/ return MomoParserInstance.parseCommandValue(theCMD); }
+		}else { /*Single Stage*/ return this.parseCommandValue(theCMD); }
 	}else { return false; }
 };
 

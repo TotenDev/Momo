@@ -42,6 +42,30 @@ tap.test("\nSingle Value Parser",function (t) {
 	});
 	t.end();
 });
+tap.test("\nSingle Value Zero Parser",function (t) {
+	t.doesNotThrow(function () {
+		var value = new Array();
+		value.push(0);
+		t.plan(value.length+1);
+		var testValue = MomoParser.commandAllowedValues("0");
+		for (var i = 0; i < testValue.length; i++) {
+			t.equal(testValue[i],value[i],"Not parsing properly value at index " + i);
+		}
+	});
+	t.end();
+});
+tap.test("\nSingle Value DoubleZero Parser",function (t) {
+	t.doesNotThrow(function () {
+		var value = new Array();
+		value.push(0);
+		t.plan(value.length+1);
+		var testValue = MomoParser.commandAllowedValues("00");
+		for (var i = 0; i < testValue.length; i++) {
+			t.equal(testValue[i],value[i],"Not parsing properly value at index " + i);
+		}
+	});
+	t.end();
+});
 tap.test("\nSingle Range Parser",function (t) {
 	t.doesNotThrow(function () {
 		var value = new Array();

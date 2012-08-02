@@ -20,8 +20,7 @@ function MomoRequest(url,callback,method) {
 	assert.ok(url,"No 'url' specified on MomoRequest initialization, this is a **REQUIRED** value");
 	assert.ok(callback,"No 'callback' specified on MomoRequest initialization, this is a **REQUIRED** value");
 	//
-	MomoRequestInstance = this;
-	MomoRequestInstance.simpleRequest(url,(method ? method : "GET"),callback);
+	MomoRequest.simpleRequest(url,(method ? method : "GET"),callback);
 };
 
 /**
@@ -32,7 +31,7 @@ function MomoRequest(url,callback,method) {
 * @param-cb bool callback.status - If request has finished with success or not - OPTIONAL
 * @param-cb string callback.response - Response (errored or not) - OPTIONAL
 **/
-MomoRequest.prototype.simpleRequest = function simpleRequest(theURL,methodType,callback) {
+MomoRequest.simpleRequest = function simpleRequest(theURL,methodType,callback) {
 	assert.ok(theURL,"No 'url' specified on MomoRequest 'simpleRequest()' function, this is a **REQUIRED** value");
 	assert.ok(methodType,"No 'methodType' specified on MomoRequest 'simpleRequest()' function, this is a **REQUIRED** value");
 	assert.ok(callback,"No 'callback' specified on MomoRequest 'simpleRequest()' function, this is a **REQUIRED** value");
