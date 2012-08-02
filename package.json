@@ -1,6 +1,6 @@
 {
-  "name": "function-queue",
-  "description": "Simple queue to execute any function on FIFO order.",
+  "name": "Momo",
+  "description": "Cronjob to web hooks.",
   "version": "0.0.1",
   "author": "TotenDev LTDA <support@totendev.com> (http://totendev.com)",
   "dependencies": {},
@@ -9,17 +9,17 @@
     "test": "tap test/"
   },
   "engines": {
-    "node": ">= 0.6"
+    "node": ">= 0.4"
   },
   "main":"src/function-queue",
   "license":"MIT",
   "repository":{
 	"type":"git",
-	"url":"git://github.com/TotenDev/Function-Queue.git"
+	"url":"git://github.com/TotenDev/Momo.git"
   },
   "maintainers":[{
    "name": "Gabriel Wady",
    "email": "gabriel@totendev.com"
   }],
-  "keywords": [ "queue","function"]
+  "keywords": [ "cron","cronjob","hook","web","webhook","schedule","worker"]
 }
