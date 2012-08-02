@@ -11,9 +11,9 @@ var url = require('url'),
 /**
 * Initialize Momo function
 * @param Object options - options object - REQUIRED
-* @param url options.cronURL - End point to fecth cronjob list - REQUIRED
+* @param url options.cronURL - End point to fetch cronjob list - REQUIRED
 * @param integer options.cronFetchLoop - Time interval to Momo fetch `options.cronURL` in seconds - Default value is:3600000 milliseconds - OPTIONAL
-* @param integer options.momoFPS - Momo Check Loop (aka.FPS) in seconds of course - Default value is:60000 milliseconds - OPTIONAL
+* @param integer options.momoFPS - Momo Check Loop (aka.FPS) in milliseconds - Default value is:60000 milliseconds - OPTIONAL
 **/
 module.exports = function (options) { return new Momo(options); }
 function Momo(options) {
@@ -27,7 +27,7 @@ function Momo(options) {
 	//Optional options
 	if (!options["cronFetchLoop"] || options["cronFetchLoop"].length == 0) { MomoInstance.cronFetchLoop = "3600000"; }//set default value
 	else { MomoInstance.cronFetchLoop = options["cronFetchLoop"]; }
-	if (!options["momoFPS"] || options["momoFPS"].length == 0) { MomoInstance.momoRunLoopInterval = "5000"; }//set default value
+	if (!options["momoFPS"] || options["momoFPS"].length == 0) { MomoInstance.momoRunLoopInterval = "60000"; }//set default value
 	else { MomoInstance.momoRunLoopInterval = options["momoFPS"]; }
 	
 	//Fetch CSV
@@ -65,10 +65,8 @@ Momo.prototype.execCronsNow = function execCronsNow() {
 	//For all parsed jobs
 	for (var i = 0; i < MomoInstance.container.length; i++) {
 		var theJob = MomoInstance.container[i];//get job
-		//console.log("JOB",MomoInstance.container[i]);
 		if (theJob.shouldExecuteOnDate(currentDate) == true) {//Check if should execute this jobs on this date
 			var hookURL = theJob.executionURL();
-			console.log("URL",hookURL);
 			if (hookURL && hookURL.length > 0) {
 				//Make request
 				util.log("Executing hook with url: " + hookURL);
@@ -102,8 +100,6 @@ Momo.prototype.parseServerResponse = function parseServerResponse(resp) {
 				MomoInstance.container.push(newJob); 
 			}
 		}
-		util.log(MomoInstance.container.length+" Web CronJob Added");
+		util.log("("+MomoInstance.container.length+")Web CronJob Added");
 	}else { return false; }
 }
-
-var MM = new Momo({ cronURL:"https://dl.dropbox.com/u/72669102/teste.csv" });
