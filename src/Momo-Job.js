@@ -11,7 +11,7 @@ var assert = require("assert"),
 /**
 * Initialize Momo-Job function
 **/
-module.exports = function () { return new MomoJob(momoLine); }
+module.exports = function (momoLine) { return new MomoJob(momoLine); }
 function MomoJob(momoLine) {
 	MomoJobInstance = this;
 	MomoJobInstance.initLine = momoLine;
