@@ -40,22 +40,29 @@ MomoJob.prototype.isCurrentInitLineValid = function isCurrentInitLineValid() {
 };
 //
 MomoJob.isCommandValid = function isCommandValid(command) {
-	//Check if have numbers
-//	if (command.match(/[0-9]+/)) { return true; }
-//	else if (command.match)) { }
-//	else if () { }
-//	else if () { }
-//	else if () { }
-//	else {
-//		
-//	}
-}
-//
-MomoJob.prototype.isCurrentInitLineValid2 = function isCurrentInitLineValid2() {
-//	var commands = MomoJobObjectInstance.initLine.split(" ");
-//	console.log(commands);
-//	if (commands > 5) { return true; }
-//	else { return false; }
+	//Check if valid and `parsable`
+	var matches = command.match(/([0-9\/\/,*-])+/);
+	if (matches && matches.length > 0) {
+		//Get only first match
+		var theCMD = matches[0];
+		//
+		if (theCMD == '*') { /*Deactivated Command*/
+			return true;
+		}else if (theCMD.split("/").length > 0) { /*Multi Command*/
+			
+		}else { /*Single Command*/
+		
+		}
+	}else { return false; }
 };
+//
+MomoJob.prototype.commandAllowedValues = function commandAllowedValues() {
+	
+};
+//
+MomoJob.prototype.commandAllowedValues = function commandAllowedValues() {
+	
+};
+
 new MomoJob(" * 1 2 * * * /coomand/");
 new MomoJob("* 1 2 * * * /coomand/");

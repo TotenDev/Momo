@@ -15,53 +15,32 @@ var url = require('url');
 **/
 module.exports = function (options) { return new Momo(options); }
 function Momo(options) {
-	MomoObjectInstance = this;
-	
+	MomoInstance = this;
 	//Check for required values on options
 	if (!options) { assert.ok(false,"Momo options are not specified."); }
 	else if (!options["cronURL"] || options["cronURL"].length == 0) { assert.ok(false,"Momo options 'cronURL' is **REQUIRED**, but is not specified."); }
 	//Get required values
-	MomoObjectInstance.cronURL = options["cronURL"];
+	MomoInstance.cronURL = options["cronURL"];
 	//Optional options
-	if (!options["cronFetchLoop"] || options["cronFetchLoop"].length == 0) { MomoObjectInstance.cronFetchLoop = options["cronFetchLoop"]; }//set default value
-	else { MomoObjectInstance.cronFetchLoop = "3600"; }
-	if (!options["momoFPS"] || options["momoFPS"].length == 0) { MomoObjectInstance.momoRunLoopInterval = options["momoFPS"]; }//set default value
-	else { MomoObjectInstance.momoRunLoopInterval = "60"; }
+	if (!options["cronFetchLoop"] || options["cronFetchLoop"].length == 0) { MomoInstance.cronFetchLoop = options["cronFetchLoop"]; }//set default value
+	else { MomoInstance.cronFetchLoop = "3600"; }
+	if (!options["momoFPS"] || options["momoFPS"].length == 0) { MomoInstance.momoRunLoopInterval = options["momoFPS"]; }//set default value
+	else { MomoInstance.momoRunLoopInterval = "60"; }
+	//Jobs container
+	MomoInstance.container = new Array();
 	//Fetch CSV
-	MomoObjectInstance.container = new Array();
-	MomoObjectInstance.getCronList();
+	MomoInstance.getCronList();
 };
 
 /*
 Get Cronjob hook list
 */
 Momo.prototype.getCronList = function getCronList(callback) {
-	//Get if is http or https
-	var http = null;
-	var requestURL = url.parse(MomoObjectInstance.cronURL);
-	console.log(requestURL);
-	if (requestURL.protocol == "https:") { http = require('https'); }
-	else { http = require('http'); }
-	//Make options from url
-	var options = { host: requestURL['host'], port: 80, path:requestURL['path'], method: 'GET' }, responsed = false;
-	var request = http.request(options,function (response) {
-		response.on('data',function () {
-			if (responsed == false) {
-				responsed = true;
-			}				
-		});
-		response.on('error',function () {
-			if (responsed == false) {
-				responsed = true;
-			}				
-		});
+	//Make request
+	var MomoRequest = require("./Momo-Request.js")(MomoInstance.cronURL,function (ok,resp) {
+		//Try to format each Mono-Job into container
+		console.log(ok,resp);
 	});
-	request.on('error',function () {
-		if (responsed == false) {
-			responsed = true;
-		}
-	});
-	request.end();
 };
 
 var MM = new Momo({ cronURL:"https://dl.dropbox.com/u/72669102/teste.csv" });
