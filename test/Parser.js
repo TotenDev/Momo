@@ -235,6 +235,30 @@ tap.test("\nRoutine Individual Three Parser",function (t) {
 	});
 	t.end();
 });
+tap.test("\nRoutine Range/Individual One Parser",function (t) {
+	t.doesNotThrow(function () {
+		var value = new Array();
+		value.push(2,4,8,10,12);
+		t.plan(value.length+1);
+		var testValue = MomoParser.commandAllowedValues("2,4,8-12/2",100);
+		for (var i = 0; i < testValue.length; i++) {
+			t.equal(testValue[i],value[i],"Not parsing properly value at index " + i);
+		}
+	});
+	t.end();
+});
+tap.test("\nRoutine Range/Individual Two Parser",function (t) {
+	t.doesNotThrow(function () {
+		var value = new Array();
+		value.push(8,10,12,88,98);
+		t.plan(value.length+1);
+		var testValue = MomoParser.commandAllowedValues("8-12,88,98,99/2",100);
+		for (var i = 0; i < testValue.length; i++) {
+			t.equal(testValue[i],value[i],"Not parsing properly value at index " + i);
+		}
+	});
+	t.end();
+});
 tap.test("\nDivisible Simple One Parser",function (t) {
 	t.doesNotThrow(function () {
 		var value = new Array();
@@ -325,6 +349,30 @@ tap.test("\nDivisible Range Two Parser",function (t) {
 		value.push(0,5,6,7);
 		t.plan(value.length+1);
 		var testValue = MomoParser.commandAllowedValues("*/5-7",7);
+		for (var i = 0; i < testValue.length; i++) {
+			t.equal(testValue[i],value[i],"Not parsing properly value at index " + i);
+		}
+	});
+	t.end();
+});
+tap.test("\nDivisible Range/Individual One Parser",function (t) {
+	t.doesNotThrow(function () {
+		var value = new Array();
+		value.push(0,5,6,7,9,10);
+		t.plan(value.length+1);
+		var testValue = MomoParser.commandAllowedValues("*/5-7,9",10);
+		for (var i = 0; i < testValue.length; i++) {
+			t.equal(testValue[i],value[i],"Not parsing properly value at index " + i);
+		}
+	});
+	t.end();
+});
+tap.test("\nDivisible Range/Individual Two Parser",function (t) {
+	t.doesNotThrow(function () {
+		var value = new Array();
+		value.push(0,5,7,8,9);
+		t.plan(value.length+1);
+		var testValue = MomoParser.commandAllowedValues("*/5,7-9",9);
 		for (var i = 0; i < testValue.length; i++) {
 			t.equal(testValue[i],value[i],"Not parsing properly value at index " + i);
 		}

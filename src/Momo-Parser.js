@@ -1,5 +1,5 @@
 //
-// Momo.js — Momo
+// Momo-Parser.js — Momo
 // today is 7/25/12, it is now 3:25 PM
 // created by TotenDev
 // see LICENSE for details.
@@ -14,10 +14,13 @@ function MomoParser() {
 	MomoParserInstance = this ;
 };
 
-//
+/**
+* Check is command is valid
+* @param string command - Command to be parsed - REQUIRED
+*/
 MomoParser.prototype.isCommandValid = function isCommandValid(command) {
 	//Check if valid and `parsable`
-	if (MomoParserInstance.commandAllowedValues(command,2500) == false) {
+	if (MomoParserInstance.commandAllowedValues(command,100) == false) {
 		return false;
 	}return true;
 };
@@ -48,34 +51,10 @@ MomoParser.prototype.commandAllowedValues = function commandAllowedValues(comman
 				}else if (typeof secondStage == 'string' && typeof firstStage == 'string') {
 					return "*";
 				}else {
-					//Let's computate
 					if (firstStage == '*') { /*DIVISIBLE*/
-						var retValue = new Array();
-						for (var i = 0; i < secondStage.length; i++) {
-							for (var o = 0; o <= maxValue; o++) { if (o%secondStage[i]===0 && retValue.indexOf(o) == -1) { retValue.push(o); } }
-						}
-						retValue.sort(function sortfunction(a, b){ return (a - b );});
-						return retValue;
+						return MomoParserInstance.computeDivisibleCommand(secondStage,maxValue);
 					}else { /*ROUTINE*/
-						var retValue = new Array();
-						var maxStep = (secondStage == "*" ? 1 : secondStage[0]);
-						var step = 1;
-						for (var i = 0; i <= maxValue; i++) {
-							step--;
-							if (step == 0) {
-								step = maxStep;
-								for (var o = 0; o < firstStage.length; o++) {
-									if (firstStage[o] == i && retValue.indexOf(firstStage[o]) == -1) { retValue.push(firstStage[o]); }
-								}
-							}
-							//Finish after loop into values, because max has reached
-							if (i == maxValue) { 
-								retValue.sort(function sortfunction(a, b){ return (a - b );});
-								return retValue; 
-							}
-						}
-						retValue.sort(function sortfunction(a, b){ return (a - b );});
-						return retValue;
+						return MomoParserInstance.computeRoutineCommand(firstStage,secondStage,maxValue);
 					}
 				}
 			} else {
@@ -85,6 +64,44 @@ MomoParser.prototype.commandAllowedValues = function commandAllowedValues(comman
 		}else { /*Single Stage*/ return MomoParserInstance.parseCommandValue(theCMD); }
 	}else { return false; }
 };
+
+/**
+* Compute divisible command and return possible values
+**/
+MomoParser.prototype.computeDivisibleCommand = function (secondStage,maxValue) {
+	var retValue = new Array();
+	for (var i = 0; i < secondStage.length; i++) { //Loop betwen all numbers on second stage
+		for (var o = 0; o <= maxValue; o++) { if (o%secondStage[i]===0 && retValue.indexOf(o) == -1) { retValue.push(o); } }
+	}
+	retValue.sort(function sortfunction(a, b){ return (a - b );});//sort asc
+	return retValue;
+}
+/**
+* Compute routine command and return possible values
+**/
+MomoParser.prototype.computeRoutineCommand = function computeRoutineCommand(firstStage,secondStage,maxValue) {
+	var retValue = new Array();
+	var maxStep = (secondStage == "*" ? 1 : secondStage[0]);
+	var step = 1;
+	for (var i = 0; i <= maxValue; i++) {
+		step--;
+		if (step == 0) {
+			step = maxStep;//reset step for next one
+			for (var o = 0; o < firstStage.length; o++) {//for all number on first stage
+				//check if have this one
+				if (firstStage[o] == i && retValue.indexOf(firstStage[o]) == -1) { retValue.push(firstStage[o]); }
+			}
+		}
+		//Finish after loop into values, because maxValue has reached
+		if (i == maxValue) { 
+			retValue.sort(function sortfunction(a, b){ return (a - b );}); //sort asc
+			return retValue; 
+		}
+	}
+	//Simple finish and sort asc
+	retValue.sort(function sortfunction(a, b){ return (a - b );});
+	return retValue;
+}
 
 /**
 * Initialize Parse Command Stage
