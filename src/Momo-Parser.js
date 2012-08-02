@@ -49,7 +49,7 @@ MomoParser.prototype.commandAllowedValues = function commandAllowedValues(comman
 					console.log("Command ("+theCMD+"), doesn't seems to be right, Momo does not allow multi numbers on both command stages.");
 					return false;
 				}else if (typeof secondStage == 'string' && typeof firstStage == 'string') {
-					return "*";
+					return MomoParserInstance.fillCommandWithMaxValue(maxValue);
 				}else {
 					if (firstStage == '*') { /*DIVISIBLE*/
 						return MomoParserInstance.computeDivisibleCommand(secondStage,maxValue);
@@ -66,9 +66,17 @@ MomoParser.prototype.commandAllowedValues = function commandAllowedValues(comman
 };
 
 /**
+* Fill and array with all values untilmax value
+**/
+MomoParser.prototype.fillCommandWithMaxValue = function fillCommandWithMaxValue(maxValue) {
+	var retValue = new Array();
+	for (var i = 0; i < maxValue; i++) { retValue.push(i); }
+	return retValue;
+}
+/**
 * Compute divisible command and return possible values
 **/
-MomoParser.prototype.computeDivisibleCommand = function (secondStage,maxValue) {
+MomoParser.prototype.computeDivisibleCommand = function computeDivisibleCommand(secondStage,maxValue) {
 	var retValue = new Array();
 	for (var i = 0; i < secondStage.length; i++) { //Loop betwen all numbers on second stage
 		for (var o = 0; o <= maxValue; o++) { if (o%secondStage[i]===0 && retValue.indexOf(o) == -1) { retValue.push(o); } }

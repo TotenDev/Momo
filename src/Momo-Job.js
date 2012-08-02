@@ -25,7 +25,6 @@ function MomoJob(momoLine) {
 
 /** Validate Line **/
 MomoJob.prototype.isCurrentInitLineValid = function isCurrentInitLineValid() {
-	//
 	var commands = MomoJobInstance.initLine.split(" ");
 	if (commands.length > 5) { 
 		for (var i = 0; i < commands.length; i++) {
@@ -43,7 +42,7 @@ MomoJob.prototype.isCurrentInitLineValid = function isCurrentInitLineValid() {
 				case 2:/*Days of Month*/{
 					var response = parser.commandAllowedValues(commands[i],31);
 					if (response == false) { return false; /*ABORT*/}
-					else { MomoJobInstance.monthsValue = response ; }
+					else { MomoJobInstance.monthDaysValue = response ; }
 				}break;
 				case 3:/*Months*/{
 					var response = parser.commandAllowedValues(commands[i],12);
@@ -55,8 +54,8 @@ MomoJob.prototype.isCurrentInitLineValid = function isCurrentInitLineValid() {
 					if (response == false) { return false; /*ABORT*/}
 					else { MomoJobInstance.daysOfWeekValue = response ; }
 				}break;
-				case 5:/*Command*/{
-					if (commands[i] && commands[i].length > 0) { MomoJobInstance.cmd = commands[i]; }
+				case 5:/*Hook URL*/{
+					if (commands[i] && commands[i].length > 0) { MomoJobInstance.hookURL = commands[i]; }
 					else { return false; /*ABORT*/}
 				}break;
 				default:
@@ -67,5 +66,27 @@ MomoJob.prototype.isCurrentInitLineValid = function isCurrentInitLineValid() {
 	}
 	else { return false; }
 };
-new MomoJob(" * 1 2 * * /coomand/");
-new MomoJob("* 1-5/2 2 * 2/* /coomand/");
+/** Check if should execute or not **/
+MomoJob.prototype.shouldExecuteOnDate = function shouldExecuteOnDate(date) {
+	//Count needed aprove commands 
+	var approvePending = 0;
+	if (MomoJobInstance.minutesValue == '*') { approvePending++; }
+	if (MomoJobInstance.hoursValue == '*') { approvePending++; }
+	if (MomoJobInstance.monthDaysValue == '*') { approvePending++; }
+	if (MomoJobInstance.monthsValue == '*') { approvePending++; }
+	if (MomoJobInstance.daysOfWeekValue == '*') { approvePending++; }
+	
+	//Check for minutes
+	if (MomoJobInstance.minutesValue.indexOf(date.getMinutes()) != -1) { approvePending--; }
+	//Check for hours
+	if (MomoJobInstance.hoursValue.indexOf(date.getHours()) != -1) { approvePending--; }
+	//Check for day of month
+	if (MomoJobInstance.monthDaysValue.indexOf(date.getDate()) != -1) { approvePending--; }
+	//Check for months
+	if (MomoJobInstance.monthsValue.indexOf(date.getMonth()) != -1) { approvePending--; }
+	//Check for days of week
+	if (MomoJobInstance.daysOfWeekValue.indexOf(date.getDay()) != -1) { approvePending--; }
+	return (approvePending == 0);
+}
+/** Execution URL **/
+MomoJob.prototype.executionURL = function executionURL() { return MomoJobInstance.hookURL; }
