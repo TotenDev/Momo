@@ -83,7 +83,7 @@ Parse CSV and insert jobs if can
 */
 Momo.prototype.parseServerResponse = function parseServerResponse(resp) {
 	//Check for container and clean if needed
-	if (MomoInstance.container && MomoInstance.container.length > 0) { MomoInstance.container.slice(0,MomoInstance.container.length); }
+	if (MomoInstance.container && MomoInstance.container.length > 0) { MomoInstance.container.splice(0,MomoInstance.container.length); }
 	//Start jobs parsing
 	var jobs = resp.split("\n");
 	if (jobs && jobs.length > 0) {
