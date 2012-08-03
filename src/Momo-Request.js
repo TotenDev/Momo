@@ -47,14 +47,14 @@ MomoRequest.simpleRequest = function simpleRequest(theURL,methodType,callback) {
 	var request = http.request(options,function (response) {
 		response.on('data',function (data) { containerData+=data; });
 		response.on('error',function (err) {
-			if (responsed == false) { responsed = true; callback(false,err); }
+			if (responsed == false) { responsed = true; callback(false,err,response.statusCode); }
 		});
 		response.on('end',function () {
-			if (responsed == false) { responsed = true; callback(true,containerData); }
+			if (responsed == false) { responsed = true; callback(true,containerData,response.statusCode); }
 		});
 	});
 	request.on('error',function (err) {
-		if (responsed == false) { responsed = true; callback(false,err); }
+		if (responsed == false) { responsed = true; callback(false,err,undefined); }
 	});
 	request.end();
 };

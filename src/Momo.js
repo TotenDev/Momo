@@ -69,8 +69,8 @@ Momo.prototype.execCronsNow = function execCronsNow() {
 			var hookURL = theJob.executionURL();
 			if (hookURL && hookURL.length > 0) {
 				//Make request
-				util.log("Executing hook with url: " + hookURL);
-				var MomoRequest = require("./Momo-Request.js")(hookURL,function (ok,resp) { util.log("Hook response ("+ok+") with url:"+hookURL); });
+				//util.log("Executing hook with url: " + hookURL);
+				var MomoRequest = require("./Momo-Request.js")(hookURL,function (ok,resp,statusCode) { util.log("Hook response ("+ok+"-"+statusCode+") with url:"+hookURL); });
 			}else { util.log("CronJob should execute now, but hookURL isn't valid."); }
 		}
 	}
