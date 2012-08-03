@@ -49,6 +49,17 @@ Momo CronJob syntax is very near to the Unix cron syntax, BUT it'll not allow `?
 [source Wikipedia - but modified](http://en.wikipedia.org/wiki/Cron)
 
 ---
+### Special Keywords
+
+Keyword  | Equivalent | Description 
+------------- | ------------- | ------------- 
+`@yearly` OR `@annually` | `0 0 1 1 *` | Run one time a year, on midnight, January 1.
+`@monthly`  | `0 0 1 * *` | Run one time a month, on midnight, first day of month.
+`@weekly`  | `0 0 * * 0` | Run once a week, on midnight, on Sunday.
+`@daily`  | `0 0 * * *` | Run once a day, on midnight.
+`@hourly`  | `0 * * * *` | Run once a hour, on initial minute of it.
+
+---
 ###Syntax Rules
 
 - `*` - Means deactivated OR if not alone, means anything.
@@ -63,6 +74,8 @@ All these commands can be combined with two stage command using the character `/
 ###Samples
 
 - `* * * * * http://example.com` - Deactivated cronjob
+
+- `@monthly http://example.com` - Will run each month.
 
 - `*/* * * * * http://example.com` - Will run each 1 minute.
 
@@ -91,5 +104,4 @@ All these commands can be combined with two stage command using the character `/
 5. Create new Pull Request
 
 ## License
-
 [MIT](Momo/raw/master/LICENSE)

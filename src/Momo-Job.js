@@ -65,7 +65,58 @@ MomoJob.prototype.isCurrentInitLineValid = function isCurrentInitLineValid() {
 		} 
 		return true;
 	}
-	else { return false; }
+	else if (commands.length == 2) {
+		//Auxs
+		var zero = new Array(); zero.push(0);
+		var one = new Array(); one.push(1);
+		//Check for match special keywords
+		if (commands[0].match("@yearly") || commands[0].match("@annually")) {
+			//Check for url
+			if (commands[1] && commands[1].length > 0) { 
+				this.minutesValue = zero; this.hoursValue = zero; this.monthDaysValue = one; 
+				this.monthsValue = one; this.daysOfWeekValue = '*';
+				this.hookURL = commands[1];
+				return true;
+			}
+			else { return false; /*ABORT*/}
+		}else if (commands[0].match("@monthly")) {
+			//Check for url
+			if (commands[1] && commands[1].length > 0) { 
+				this.minutesValue = zero; this.hoursValue = zero; this.monthDaysValue = one; 
+				this.monthsValue = '*'; this.daysOfWeekValue = '*';
+				this.hookURL = commands[1];
+				return true;
+			}
+			else { return false; /*ABORT*/}		
+		}else if (commands[0].match("@weekly")) {
+			//Check for url
+			if (commands[1] && commands[1].length > 0) { 
+				this.minutesValue = zero; this.hoursValue = zero; this.monthDaysValue = '*';
+				this.monthsValue = '*'; this.daysOfWeekValue = zero;
+				this.hookURL = commands[1];
+				return true;
+			}
+			else { return false; /*ABORT*/}
+		}else if (commands[0].match("@daily")) {
+			//Check for url
+			if (commands[1] && commands[1].length > 0) { 
+				this.minutesValue = zero; this.hoursValue = zero; this.monthDaysValue = '*';
+				this.monthsValue = '*'; this.daysOfWeekValue = '*';
+				this.hookURL = commands[1];
+				return true;
+			}
+			else { return false; /*ABORT*/}
+		}else if (commands[0].match("@hourly")) {
+			//Check for url
+			if (commands[1] && commands[1].length > 0) { 
+				this.minutesValue = zero; this.hoursValue = '*'; this.monthDaysValue = '*';
+				this.monthsValue = '*'; this.daysOfWeekValue = '*';
+				this.hookURL = commands[1];
+				return true;
+			}
+			else { return false; /*ABORT*/}
+		}else { return false; }
+	}else { return false; }
 };
 /** Check if should execute or not **/
 MomoJob.prototype.shouldExecuteOnDate = function shouldExecuteOnDate(date) {

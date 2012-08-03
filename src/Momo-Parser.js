@@ -48,14 +48,11 @@ MomoParser.prototype.commandAllowedValues = function commandAllowedValues(comman
 				if (typeof secondStage != 'string' && typeof firstStage != 'string' && secondStage.length > 1) {
 					util.log("Command ("+theCMD+"), doesn't seems to be right, Momo does not allow multi numbers on both command stages.");
 					return false;
-				}else if (typeof secondStage == 'string' && typeof firstStage == 'string') {
+				}else if (typeof secondStage == 'string' && typeof firstStage == 'string') { 
 					return this.fillCommandWithMaxValue(maxValue);
 				}else {
-					if (firstStage == '*') { /*DIVISIBLE*/
-						return this.computeDivisibleCommand(secondStage,maxValue);
-					}else { /*ROUTINE*/
-						return this.computeRoutineCommand(firstStage,secondStage,maxValue);
-					}
+					if (firstStage == '*') { /*DIVISIBLE*/ return this.computeDivisibleCommand(secondStage,maxValue);
+					}else { /*ROUTINE*/ return this.computeRoutineCommand(firstStage,secondStage,maxValue); }
 				}
 			} else {
 				util.log("Command have more than 2 stages. This is not allowed.");
