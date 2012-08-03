@@ -90,6 +90,5 @@ MomoJob.prototype.shouldExecuteOnDate = function shouldExecuteOnDate(date) {
 }
 /** Execution URL **/
 MomoJob.prototype.executionURL = function executionURL() { 
-	console.log(this.hookURL);
 	return this.hookURL; 
 }
