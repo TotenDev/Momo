@@ -9,7 +9,8 @@
     "test": "tap test/"
   },
   "engines": {
-    "node": ">= 0.4"
+    "node": ">= 0.4",
+    "npm":  "1.1.x"
   },
   "main":"src/Momo.js",
   "license":"MIT",
