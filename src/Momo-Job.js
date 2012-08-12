@@ -7,7 +7,8 @@
 	
 var assert = require("assert"),
 	parser = require('./Momo-Parser.js')(),
-	util = require('util');
+	util = require('util'),
+	url = require('url');
 
 /**
 * Initialize Momo-Job function
@@ -56,67 +57,42 @@ MomoJob.prototype.isCurrentInitLineValid = function isCurrentInitLineValid() {
 					else { this.daysOfWeekValue = response ; }
 				}break;
 				case 5:/*Hook URL*/{
-					if (commands[i] && commands[i].length > 0) { this.hookURL = commands[i]; }
+					if (commands[i] && commands[i].length > 0) { this.hookURL = url.parse(commands[i]); }
 					else { return false; /*ABORT*/}
 				}break;
-				default:
-					break;
+				default: break;
 			}
-		} 
-		return true;
+		} return true; /*valid condition*/
 	}
 	else if (commands.length == 2) {
 		//Auxs
 		var zero = new Array(); zero.push(0);
 		var one = new Array(); one.push(1);
-		//Check for match special keywords
-		if (commands[0].match("@yearly") || commands[0].match("@annually")) {
-			//Check for url
-			if (commands[1] && commands[1].length > 0) { 
+		//Check for valid url
+		if (commands[1] && commands[1].length > 0) {
+			//Check for match special keywords
+			if (commands[0].match("@yearly") || commands[0].match("@annually")) {
 				this.minutesValue = zero; this.hoursValue = zero; this.monthDaysValue = one; 
 				this.monthsValue = one; this.daysOfWeekValue = '*';
-				this.hookURL = commands[1];
-				return true;
-			}
-			else { return false; /*ABORT*/}
-		}else if (commands[0].match("@monthly")) {
-			//Check for url
-			if (commands[1] && commands[1].length > 0) { 
+			}else if (commands[0].match("@monthly")) {
 				this.minutesValue = zero; this.hoursValue = zero; this.monthDaysValue = one; 
 				this.monthsValue = '*'; this.daysOfWeekValue = '*';
-				this.hookURL = commands[1];
-				return true;
-			}
-			else { return false; /*ABORT*/}		
-		}else if (commands[0].match("@weekly")) {
-			//Check for url
-			if (commands[1] && commands[1].length > 0) { 
+			}else if (commands[0].match("@weekly")) {
 				this.minutesValue = zero; this.hoursValue = zero; this.monthDaysValue = '*';
 				this.monthsValue = '*'; this.daysOfWeekValue = zero;
-				this.hookURL = commands[1];
-				return true;
-			}
-			else { return false; /*ABORT*/}
-		}else if (commands[0].match("@daily")) {
-			//Check for url
-			if (commands[1] && commands[1].length > 0) { 
+			}else if (commands[0].match("@daily")) {
 				this.minutesValue = zero; this.hoursValue = zero; this.monthDaysValue = '*';
 				this.monthsValue = '*'; this.daysOfWeekValue = '*';
-				this.hookURL = commands[1];
-				return true;
-			}
-			else { return false; /*ABORT*/}
-		}else if (commands[0].match("@hourly")) {
-			//Check for url
-			if (commands[1] && commands[1].length > 0) { 
+			}else if (commands[0].match("@hourly")) {
 				this.minutesValue = zero; this.hoursValue = '*'; this.monthDaysValue = '*';
 				this.monthsValue = '*'; this.daysOfWeekValue = '*';
-				this.hookURL = commands[1];
-				return true;
-			}
-			else { return false; /*ABORT*/}
-		}else { return false; }
-	}else { return false; }
+			}else { return false; }
+			//Valid condition
+			this.hookURL = url.parse(commands[1]);
+			return true;	
+		}
+	}
+	return false;
 };
 /** Check if should execute or not **/
 MomoJob.prototype.shouldExecuteOnDate = function shouldExecuteOnDate(date) {
