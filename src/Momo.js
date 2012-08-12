@@ -5,9 +5,9 @@
 // see LICENSE for details.
 //
 	
-var url = require('url'),
-	MomoJob = require('./Momo-Job.js'),
-	util = require('util');
+var MomoJob = require('./Momo-Job.js'),
+	util = require('util'),
+	url = require('url');
 /**
 * Initialize Momo function
 * @param Object options - options object - REQUIRED
@@ -50,7 +50,7 @@ Get Cronjob hook list
 */
 Momo.prototype.getCronList = function getCronList(callback) {
 	//Make request
-	var MomoRequest = require("./Momo-Request.js")(MomoInstance.cronURL,function (ok,resp) {
+	var MomoRequest = require("./Momo-Request.js")(url.parse(MomoInstance.cronURL),function (ok,resp) {
 		//Try to format each Momo-Job into container
 		if (ok && resp && resp.length > 0) { MomoInstance.parseServerResponse(resp);
 		}else { util.log("Error when fetching CSV from server." + resp); }
@@ -67,11 +67,8 @@ Momo.prototype.execCronsNow = function execCronsNow() {
 		var theJob = MomoInstance.container[i];//get job
 		if (theJob.shouldExecuteOnDate(currentDate) == true) {//Check if should execute this jobs on this date
 			var hookURL = theJob.executionURL();
-			if (hookURL && hookURL.length > 0) {
-				//Make request
-				//util.log("Executing hook with url: " + hookURL);
-				var MomoRequest = require("./Momo-Request.js")(hookURL,function (ok,resp,statusCode) { util.log("Hook response ("+ok+"-"+statusCode+") with url:"+hookURL); });
-			}else { util.log("CronJob should execute now, but hookURL isn't valid."); }
+			//Make request
+			var MomoRequest = require("./Momo-Request.js")(hookURL,function (ok,resp,statusCode,url) { util.log("Hook response ("+ok+"-"+statusCode+") on: "+url); });
 		}
 	}
 };
