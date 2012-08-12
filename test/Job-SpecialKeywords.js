@@ -5,8 +5,9 @@
 // see LICENSE for details.
 //
 	
-var tap = require("tap");
-var MomoJob = require("./../src/Momo-Job.js");
+var tap = require("tap"),
+	MomoJob = require("./../src/Momo-Job.js"),
+	url = require('url');
 //Auxs
 var zero = new Array(); zero.push(0);
 var one = new Array(); one.push(1);
@@ -20,7 +21,7 @@ tap.test("\nSpecial Keyword @yearly",function (t) {
 		t.equal(Job.monthDaysValue[0],one[0],"Months Days are ok");
 		t.equal(Job.monthsValue[0],one[0],"Months are ok");
 		t.equal(Job.daysOfWeekValue,"*","Days of Week are ok");
-		t.equal(Job.executionURL(),"http://example.com","Execution URL are ok");
+		t.equal(Job.executionURL()['host'],url.parse("http://example.com/")['host'],"Execution URL is ok");
 	});
 	t.end();
 });
@@ -34,7 +35,7 @@ tap.test("\nSpecial Keyword @annually",function (t) {
 		t.equal(Job.monthDaysValue[0],one[0],"Months Days are ok");
 		t.equal(Job.monthsValue[0],one[0],"Months are ok");
 		t.equal(Job.daysOfWeekValue,"*","Days of Week are ok");
-		t.equal(Job.executionURL(),"http://example.com","Execution URL are ok");
+		t.equal(Job.executionURL()['host'],url.parse("http://example.com/")['host'],"Execution URL is ok");
 	});
 	t.end();
 });
@@ -48,7 +49,7 @@ tap.test("\nSpecial Keyword @monthly",function (t) {
 		t.equal(Job.monthDaysValue[0],one[0],"Months Days are ok");
 		t.equal(Job.monthsValue,'*',"Months are ok");
 		t.equal(Job.daysOfWeekValue,"*","Days of Week are ok");
-		t.equal(Job.executionURL(),"http://example.com","Execution URL are ok");
+		t.equal(Job.executionURL()['host'],url.parse("http://example.com/")['host'],"Execution URL is ok");
 	});
 	t.end();
 });
@@ -62,7 +63,7 @@ tap.test("\nSpecial Keyword @weekly",function (t) {
 		t.equal(Job.monthDaysValue,'*',"Months Days are ok");
 		t.equal(Job.monthsValue,'*',"Months are ok");
 		t.equal(Job.daysOfWeekValue[0],zero[0],"Days of Week are ok");
-		t.equal(Job.executionURL(),"http://example.com","Execution URL are ok");
+		t.equal(Job.executionURL()['host'],url.parse("http://example.com/")['host'],"Execution URL is ok");
 	});
 	t.end();
 });
@@ -76,7 +77,7 @@ tap.test("\nSpecial Keyword @daily",function (t) {
 		t.equal(Job.monthDaysValue,'*',"Months Days are ok");
 		t.equal(Job.monthsValue,'*',"Months are ok");
 		t.equal(Job.daysOfWeekValue,'*',"Days of Week are ok");
-		t.equal(Job.executionURL(),"http://example.com","Execution URL are ok");
+		t.equal(Job.executionURL()['host'],url.parse("http://example.com/")['host'],"Execution URL is ok");
 	});
 	t.end();
 });
@@ -90,7 +91,7 @@ tap.test("\nSpecial Keyword @hourly",function (t) {
 		t.equal(Job.monthDaysValue,'*',"Months Days are ok");
 		t.equal(Job.monthsValue,'*',"Months are ok");
 		t.equal(Job.daysOfWeekValue,'*',"Days of Week are ok");
-		t.equal(Job.executionURL(),"http://example.com","Execution URL are ok");
+		t.equal(Job.executionURL()['host'],url.parse("http://example.com/")['host'],"Execution URL is ok");
 	});
 	t.end();
 });
