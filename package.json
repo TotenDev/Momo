@@ -1,7 +1,7 @@
 {
   "name": "momo",
   "description": "Cronjob with web hooks.",
-  "version": "0.0.1",
+  "version": "0.0.11",
   "author": "TotenDev LTDA <support@totendev.com> (http://totendev.com)",
   "dependencies": {},
   "devDependencies": { "tap": "0.x" },
