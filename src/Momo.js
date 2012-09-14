@@ -32,14 +32,21 @@ function Momo(options) {
 	
 	//Fetch CSV
 	MomoInstance.getCronList();
-	//Try to execute jobs now
-	MomoInstance.execCronsNow();
 	
 	//Ticks
 	setInterval(function () { util.log("Cron Fetch Loop"); MomoInstance.getCronList();
 	},parseInt(MomoInstance.cronFetchLoop));
-	setInterval(function () { util.log("Cron Exec Loop"); MomoInstance.execCronsNow();
-	},parseInt(MomoInstance.momoRunLoopInterval));
+	
+	//Sync microseconds ! (second 00. Ex. 12:34:00)
+	var _now = new Date();
+	var elapsed = _now.getMilliseconds() + (_now.getSeconds()*1000);
+	setTimeout(function () {
+		//Execute cron now
+		util.log("Cron Exec Loop Started"); MomoInstance.execCronsNow();
+		//Start Synchronized Cron Loop
+		setInterval(function () { util.log("Cron Exec Loop"); MomoInstance.execCronsNow();
+		},parseInt(MomoInstance.momoRunLoopInterval));
+	},(60000-elapsed));
 };
 
 
