@@ -32,14 +32,22 @@ function Momo(options) {
 	
 	//Fetch CSV
 	MomoInstance.getCronList();
-	//Try to execute jobs now
-	MomoInstance.execCronsNow();
 	
 	//Ticks
 	setInterval(function () { util.log("Cron Fetch Loop"); MomoInstance.getCronList();
 	},parseInt(MomoInstance.cronFetchLoop));
-	setInterval(function () { util.log("Cron Exec Loop"); MomoInstance.execCronsNow();
-	},parseInt(MomoInstance.momoRunLoopInterval));
+	
+	//Sync microseconds ! (second 00. Ex. 12:34:00)
+	var now = new Date(); 
+	var _now = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+	var elapsed = _now.getMilliseconds() + (_now.getSeconds()*1000);
+	setTimeout(function () {
+		//Execute cron now
+		util.log("Cron Exec Loop Started"); MomoInstance.execCronsNow();
+		//Start Synchronized Cron Loop
+		setInterval(function () { util.log("Cron Exec Loop"); MomoInstance.execCronsNow();
+		},parseInt(MomoInstance.momoRunLoopInterval));
+	},(60000-elapsed));
 };
 
 
@@ -61,7 +69,8 @@ Execute neededs crons with current date
 */
 Momo.prototype.execCronsNow = function execCronsNow() {
 	//Get current date
-	var currentDate = new Date();
+	var now = new Date(); 
+	var currentDate = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
 	//For all parsed jobs
 	for (var i = 0; i < MomoInstance.container.length; i++) {
 		var theJob = MomoInstance.container[i];//get job

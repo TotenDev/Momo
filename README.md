@@ -6,8 +6,10 @@ Cronjob to web hooks.
 
 ## About
 
-Momo was designed to work as a worker (continuous process), and call it hooks when cron job should be executed.
+Momo was designed to work as a worker (continuous process), and call it hooks when cron job should be executed.  
 Also Momo **DOES NOT USE A DATABASE**, it uses remote **CSV** file to fetch it hook cron list.
+
+obs: All dates are forced to be on GMT.
 
 ## Requirements
 
