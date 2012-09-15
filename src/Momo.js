@@ -37,9 +37,8 @@ function Momo(options) {
 	setInterval(function () { util.log("Cron Fetch Loop"); MomoInstance.getCronList();
 	},parseInt(MomoInstance.cronFetchLoop));
 	
-	//Sync microseconds ! (second 00. Ex. 12:34:00)
-	var now = new Date(); 
-	var _now = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+	//Sync microseconds ! (second 00. Ex. 12:34:00) 
+	var _now = GMTDate();
 	var elapsed = _now.getMilliseconds() + (_now.getSeconds()*1000);
 	setTimeout(function () {
 		//Execute cron now
@@ -65,12 +64,11 @@ Momo.prototype.getCronList = function getCronList(callback) {
 	});
 };
 /*
-Execute neededs crons with current date
+Execute neededs crons with current date in GMT
 */
 Momo.prototype.execCronsNow = function execCronsNow() {
 	//Get current date
-	var now = new Date(); 
-	var currentDate = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+	var currentDate = GMTDate();
 	//For all parsed jobs
 	for (var i = 0; i < MomoInstance.container.length; i++) {
 		var theJob = MomoInstance.container[i];//get job
@@ -108,4 +106,12 @@ Momo.prototype.parseServerResponse = function parseServerResponse(resp) {
 		}
 		util.log("("+MomoInstance.container.length+")Web CronJob Added");
 	}else { return false; }
+}
+
+
+//HELPER FUNCTION
+function GMTDate() {
+	var now = new Date(); 
+	var currentDate = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+	return currentDate;
 }
