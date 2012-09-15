@@ -41,11 +41,11 @@ function Momo(options) {
 	var _now = GMTDate();
 	var elapsed = _now.getMilliseconds() + (_now.getSeconds()*1000);
 	setTimeout(function () {
-		//Execute cron now
-		util.log("Cron Exec Loop Started"); MomoInstance.execCronsNow();
 		//Start Synchronized Cron Loop
 		setInterval(function () { util.log("Cron Exec Loop"); MomoInstance.execCronsNow();
 		},parseInt(MomoInstance.momoRunLoopInterval));
+		//Execute cron now
+		util.log("Cron Exec Loop Started"); MomoInstance.execCronsNow();
 	},(60000-elapsed));
 };
 
