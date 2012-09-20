@@ -42,16 +42,15 @@ function Momo(options) {
 		var _now = GMTDate();
 		var elapsed = _now.getMilliseconds() + (_now.getSeconds()*1000);
 		setTimeout(function () {
-			//Schedule callback
-			callback();
+			/*Schedule callback*/ callback();
 		},(60000-elapsed));
-		console.log("New schedule for " + (60000-elapsed) + " seconds.");
+		//Check for logging
+		if (elapsed != 0) util.log("New schedule for " + (60000-elapsed) + " seconds.");
 	}	
 	
 	function cronJob() {
 		scheduleNextSynchronizedLoop(function () {
-			util.log("Cron Exec Loop"); MomoInstance.execCronsNow();
-			cronJob();
+			util.log("Cron Exec Loop"); MomoInstance.execCronsNow(); cronJob();
 		});
 	}
 	//Start it
