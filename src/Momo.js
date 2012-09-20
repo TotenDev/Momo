@@ -45,7 +45,7 @@ function Momo(options) {
 			/*Schedule callback*/ callback();
 		},(60000-elapsed));
 		//Check for logging
-		if (elapsed != 0) util.log("New schedule for " + (60000-elapsed) + " seconds.");
+		if (elapsed != 0) util.log("Next cronjob routine in " + (60000-elapsed) + " seconds.");
 	}	
 	
 	function cronJob() {
