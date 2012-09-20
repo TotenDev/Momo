@@ -36,17 +36,27 @@ function Momo(options) {
 	//Ticks
 	setInterval(function () { util.log("Cron Fetch Loop"); MomoInstance.getCronList();
 	},parseInt(MomoInstance.cronFetchLoop));
+
+	function scheduleNextSynchronizedLoop(callback) {
+		//Sync microseconds ! (second 00. Ex. 12:34:00) 
+		var _now = GMTDate();
+		var elapsed = _now.getMilliseconds() + (_now.getSeconds()*1000);
+		setTimeout(function () {
+			//Schedule callback
+			callback();
+		},(60000-elapsed));
+		console.log("New schedule for " + (60000-elapsed) + " seconds.");
+	}	
 	
-	//Sync microseconds ! (second 00. Ex. 12:34:00) 
-	var _now = GMTDate();
-	var elapsed = _now.getMilliseconds() + (_now.getSeconds()*1000);
-	setTimeout(function () {
-		//Start Synchronized Cron Loop
-		setInterval(function () { util.log("Cron Exec Loop"); MomoInstance.execCronsNow();
-		},parseInt(MomoInstance.momoRunLoopInterval));
-		//Execute cron now
-		util.log("Cron Exec Loop Started"); MomoInstance.execCronsNow();
-	},(60000-elapsed));
+	function cronJob() {
+		scheduleNextSynchronizedLoop(function () {
+			util.log("Cron Exec Loop"); MomoInstance.execCronsNow();
+			cronJob();
+		});
+	}
+	//Start it
+	util.log("Cron Exec Loop is Starting..."); MomoInstance.execCronsNow();
+	cronJob();
 };
 
 
