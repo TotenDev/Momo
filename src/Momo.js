@@ -31,30 +31,20 @@ function Momo(options) {
 	else { MomoInstance.momoRunLoopInterval = options["momoFPS"]; }
 	
 	//Fetch CSV
-	MomoInstance.getCronList();
-	
-	//Ticks
+	MomoInstance.getCronList();	
+	//Simple tick loop
 	setInterval(function () { util.log("Cron Fetch Loop"); MomoInstance.getCronList();
 	},parseInt(MomoInstance.cronFetchLoop));
 
-	function scheduleNextSynchronizedLoop(callback) {
-		//Sync microseconds ! (second 00. Ex. 12:34:00) 
-		var _now = GMTDate();
-		var elapsed = _now.getMilliseconds() + (_now.getSeconds()*1000);
-		setTimeout(function () {
-			/*Schedule callback*/ callback();
-		},(60000-elapsed));
-		//Check for logging
-		if (elapsed != 0) util.log("Next cronjob routine in " + (60000-elapsed) + " seconds.");
-	}	
-	
+	//Cronjob function, called each time the cron is executed, so we schedule next call
 	function cronJob() {
-		scheduleNextSynchronizedLoop(function () {
+		//Schedule Synchronized Loop, so we dont get of sync 
+		nextMinute(function () {
 			util.log("Cron Exec Loop"); MomoInstance.execCronsNow(); cronJob();
 		});
 	}
 	//Start it
-	util.log("Cron Exec Loop is Starting..."); MomoInstance.execCronsNow();
+	util.log("Cron Exec Loop is Starting..."); 
 	cronJob();
 };
 
@@ -118,9 +108,19 @@ Momo.prototype.parseServerResponse = function parseServerResponse(resp) {
 }
 
 
-//HELPER FUNCTION
-function GMTDate() {
+//HELPER FUNCTIONs
+function GMTDate() { /*Get Date o GMT*/
 	var now = new Date(); 
 	var currentDate = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
 	return currentDate;
 }
+function nextMinute(callback) {
+	//Sync microseconds ! (second 00. Ex. 12:34:00) 
+	var _now = GMTDate();
+	var elapsed = _now.getMilliseconds() + (_now.getSeconds()*1000);
+	setTimeout(function () {
+		/*Schedule callback*/ callback();
+	},(60000-elapsed));
+	//Check for logging
+	if (elapsed != 0) util.log("Next minute routine on " + (60000-elapsed) + " seconds.");
+}	
