@@ -111,7 +111,7 @@ Momo.prototype.parseServerResponse = function parseServerResponse(resp) {
 //HELPER FUNCTIONs
 function GMTDate() { /*Get Date o GMT*/
 	var now = new Date(); 
-	var currentDate = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+	var currentDate = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds(),now.getUTCMilliseconds());
 	return currentDate;
 }
 function nextMinute(callback) {
