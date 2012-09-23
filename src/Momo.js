@@ -40,7 +40,9 @@ function Momo(options) {
 	function cronJob() {
 		//Schedule Synchronized Loop, so we dont get of sync 
 		nextMinute(function () {
-			util.log("Cron Exec Loop"); MomoInstance.execCronsNow(); cronJob();
+          util.log("Cron Exec Loop"); 
+          MomoInstance.execCronsNow(); 
+          cronJob();
 		});
 	}
 	//Start it
@@ -111,16 +113,17 @@ Momo.prototype.parseServerResponse = function parseServerResponse(resp) {
 //HELPER FUNCTIONs
 function GMTDate() { /*Get Date o GMT*/
 	var now = new Date(); 
-	var currentDate = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds(),now.getUTCMilliseconds());
+	var currentDate = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), now.getUTCMinutes(), now.getSeconds(),now.getMilliseconds());
 	return currentDate;
 }
 function nextMinute(callback) {
 	//Sync microseconds ! (second 00. Ex. 12:34:00) 
 	var _now = GMTDate();
-	var elapsed = _now.getMilliseconds() + (_now.getSeconds()*1000);
-	setTimeout(function () {
-		/*Schedule callback*/ callback();
-	},(60000-elapsed));
+    //reduce precision so we do not make cron before it time, for some os priority reason.
+	var elapsed = (_now.getMilliseconds() > 100 ? _now.getMilliseconds() : 0);
+    elapsed =+ (_now.getSeconds()*1000);
+    //Async callback
+	setTimeout(function () { /*Schedule callback*/ callback(); },(60000-elapsed));
 	//Check for logging
 	if (elapsed != 0) util.log("Next minute routine on " + (60000-elapsed) + " seconds.");
 }	
