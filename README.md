@@ -24,7 +24,6 @@ All Configuration can be done through `server.js` file in root directory. (This 
 #### Initialization config
 - `option.cronURL` - End point to fetch cronjob list. **REQUIRED**
 - `options.cronFetchLoop` - Time interval to Momo fetch `options.cronURL` in seconds - Default value is:3600000 milliseconds. **OPTIONAL**
-- `options.momoFPS` - Momo Check Loop (aka.FPS) in milliseconds - Default value is:60000 milliseconds. **OPTIONAL**
 
 ## Installation
 
