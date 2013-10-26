@@ -3,6 +3,7 @@
 Cronjob to web hooks.
 
 [![Build Status](https://secure.travis-ci.org/TotenDev/Momo.png?branch=master)](http://travis-ci.org/TotenDev/Momo)
+[![Code Climate](https://codeclimate.com/github/TotenDev/Momo.png)](https://codeclimate.com/github/TotenDev/Momo)
 
 ## About
 
