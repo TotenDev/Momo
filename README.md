@@ -2,6 +2,8 @@
 
 Cronjob to web hooks.
 
+[![NPM](https://nodei.co/npm/momo.png?compact=true)](https://nodei.co/npm/momo/)
+
 [![Build Status](https://secure.travis-ci.org/TotenDev/Momo.png?branch=master)](http://travis-ci.org/TotenDev/Momo)
 
 ## About
