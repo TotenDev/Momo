@@ -4,7 +4,7 @@
   "version": "0.0.130",
   "author": "TotenDev LTDA <support@totendev.com> (http://totendev.com)",
   "dependencies": {},
-  "devDependencies": { "tap": "0.x" },
+  "devDependencies": { "tap": "1.3.x" },
   "scripts": {
     "test": "tap test/"
   },
