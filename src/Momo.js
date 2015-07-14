@@ -38,13 +38,13 @@ function Momo(options) {
 	function cronJob() {
 		//Schedule Synchronized Loop, so we dont get of sync 
 		nextMinute(function () {
-          util.log("Cron Exec Loop"); 
+          util.log("Exec loop"); 
           MomoInstance.execCronsNow(); 
           cronJob();
 		});
 	}
 	//Start it
-	util.log("Cron Exec Loop is Starting..."); 
+	util.log("Starting cron loop routine..."); 
 	cronJob();
 };
 
@@ -103,7 +103,7 @@ Momo.prototype.parseServerResponse = function parseServerResponse(resp) {
 				MomoInstance.container.push(newJob); 
 			}
 		}
-		util.log("("+MomoInstance.container.length+")Web CronJob Added");
+		util.log("Added "+MomoInstance.container.length+" cron job(s).");
 	}else { return false; }
 }
 
@@ -117,11 +117,11 @@ function GMTDate() { /*Get Date o GMT*/
 function nextMinute(callback) {
 	//Sync microseconds ! (second 00. Ex. 12:34:00) 
 	var _now = GMTDate();
-    //reduce precision so we do not make cron before it time, for some os priority reason.
+  //reduce precision so we do not make cron before it time, for some os priority reason.
 	var elapsed = (_now.getMilliseconds() > 100 ? _now.getMilliseconds() : 0);
-    elapsed += (_now.getSeconds()*1000);
-    //Async callback
+	elapsed += (_now.getSeconds()*1000);
+  //Async callback
 	setTimeout(function () { /*Schedule callback*/ callback(); },(60000-elapsed));
 	//Check for logging
-	if (elapsed != 0) util.log("Next routine on " + (60000-elapsed) + " seconds.");
+	if (elapsed != 0) util.log("Fixing routine in " + elapsed + " milliseconds.\nNext routine in " + (60000-elapsed) + "!");
 }	

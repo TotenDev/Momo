@@ -1,7 +1,9 @@
-var Momo = require("./src/Momo.js");
-var MM = new Momo({ cronURL:"https://dl.dropbox.com/u/72669102/teste.csv" });
+// Start new relic agent
+process.env['NEW_RELIC_HOME'] = (__dirname + '/appConf/');
+var newrelic = require('newrelic');
 
-//FULL OPTIONS
-//var MM = new Momo({ cronURL:"https://dl.dropbox.com/u/72669102/teste.csv", cronFetchLoop:90000, momoFPS: 8000 });
+//Momo server
+var Momo = require("./src/Momo.js");
+var MM = new Momo({ cronURL:process.env["CRONS_URL"], cronFetchLoop: process.env["CRON_FETCH_LOOP"] });
 
 //Set GMT into heroku with "heroku config:add TZ=GMT --app myApp"

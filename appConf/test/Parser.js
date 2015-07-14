@@ -6,7 +6,7 @@
 //
 	
 var tap = require("tap");
-var MomoParser = require("./../src/Momo-Parser.js")();
+var MomoParser = require("./../../src/Momo-Parser.js")();
 //
 tap.test("\nWhiteCard Parser",function (t) {
 	t.doesNotThrow(function () {

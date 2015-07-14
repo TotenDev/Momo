@@ -2,18 +2,14 @@
 
 Cronjob to web hooks.
 
-[![NPM](https://nodei.co/npm/momo.png?compact=true)](https://nodei.co/npm/momo/)
-
 [![Build Status](https://secure.travis-ci.org/TotenDev/Momo.png?branch=master)](http://travis-ci.org/TotenDev/Momo)
-[![Dependency Status](https://gemnasium.com/TotenDev/Momo.svg)](https://gemnasium.com/TotenDev/Momo)
-
 
 ## About
 
 Momo was designed to work as a worker (continuous process), and call it hooks when cron job should be executed.  
 Also Momo **DOES NOT USE A DATABASE**, it uses remote **CSV** file to fetch it hook cron list.
 
-obs.: All dates are forced to be on GMT.
+obs: All dates are forced to be on GMT.
 
 ## Requirements
 
@@ -21,23 +17,13 @@ obs.: All dates are forced to be on GMT.
 - [npm](https://github.com/isaacs/npm)
 - [foreman](https://github.com/ddollar/foreman) (optional)
 
-
-####Modules
-- [follow-redirects] (https://www.npmjs.com/package/follow-redirects) following redirects in case of webhook link is a redirect
-- [newrelic] (https://www.npmjs.com/package/newrelic) for new relic analysis
-
 ##Configuration
 
-All Configuration need to be done through ENV IVARS.
+All Configuration can be done through `server.js` file in root directory. (This file is just a sample of a simple server)
 
 #### Initialization config
-- `CRONS_URL` - End point to fetch cronjob list. **REQUIRED**
-- `CRON_FETCH_LOOP` - Time interval to Momo fetch `CRONS_URL` in milliseconds - **REQUIRED** normally it should be 3600000
-
----
-#### Overall Config
-- `NEW_RELIC_APP_NAME` - New Relic application name. **REQUIRED**
-- `NEW_RELIC_LICENSE_KEY` - New Relic license key. **REQUIRED**
+- `option.cronURL` - End point to fetch cronjob list. **REQUIRED**
+- `options.cronFetchLoop` - Time interval to Momo fetch `options.cronURL` in seconds - Default value is:3600000 milliseconds. **OPTIONAL**
 
 ## Installation
 

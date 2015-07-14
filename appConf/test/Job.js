@@ -6,7 +6,7 @@
 //
 	
 var tap = require("tap"),
-	MomoJob = require("./../src/Momo-Job.js"),
+	MomoJob = require("./../../src/Momo-Job.js"),
 	url = require('url');
 
 //

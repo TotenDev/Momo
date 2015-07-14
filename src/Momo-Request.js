@@ -36,8 +36,8 @@ MomoRequest.simpleRequest = function simpleRequest(requestURL,methodType,callbac
 	assert.ok(callback,"No 'callback' specified on MomoRequest 'simpleRequest()' function, this is a **REQUIRED** value");
 	//Get if is http or https
 	var http = null, port = 80;
-	if (requestURL['protocol'] == "https:") { http = require('https'); port = 443; }
-	else { http = require('http'); }
+	if (requestURL['protocol'] == "https:") { http = require('follow-redirects').https; port = 443; }
+	else { http = require('follow-redirects').http; }
 	//Make options from url
 	var responsed = false;
 	var containerData = "";
