@@ -7,7 +7,8 @@
 	
 var MomoJob = require('./Momo-Job.js'),
 	util = require('util'),
-	url = require('url');
+	url = require('url'),
+    assert = require('assert');
 /**
 * Initialize Momo function
 * @param Object options - options object - REQUIRED
